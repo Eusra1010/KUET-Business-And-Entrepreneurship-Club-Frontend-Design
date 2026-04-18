@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KBEC - KUET Business & Entrepreneurship Club</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="nav-left">
+        <img src="logo.jpg" alt="Logo"> 
+        <h2>KBEC</h2>
+    </div>
+
+    <div class="profile-menu" id="profileMenu" role="menu" aria-labelledby="profileMenuButton" hidden>
+        <div class="profile-menu-title">Login as</div>
+        <button type="button" class="profile-menu-item" role="menuitem">Admin Login</button>
+        <button type="button" class="profile-menu-item" role="menuitem">User Login</button>
+    </div>
+
+    <nav class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#events">Events</a>
+        <a href="#">Alumni</a>
+    </nav>
+
+    <div class="nav-right">
+        <button class="profile-btn" id="profileMenuButton" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="profileMenu">
+            <span class="sr-only">Open login options</span>
+            <svg class="profile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-4.42 0-8 2-8 4.5A1.5 1.5 0 0 0 5.5 20h13A1.5 1.5 0 0 0 20 18.5C20 16 16.42 14 12 14Z"/>
+            </svg>
+        </button>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-text">
+        <h1>KBEC</h1>
+        <p>
+            Igniting innovation, leadership, and entrepreneurial excellence at KUET.
+            Empowering students to grow, lead, and succeed globally.
+        </p>
+
+        <div class="hero-buttons">
+            <button class="btn btn-outline">Discover More</button>
+            <button class="btn btn-primary">View Events</button>
+        </div>
+    </div>
+
+    <div class="hero-media">
+        <img class="hero-logo" src="logo.jpg" alt="KBEC Logo">
+    </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events" id="events">
+    <h2>Our Events</h2>
+
+    <div class="event-cards">
+        <div class="card">
+            <h3>Startup Workshop</h3>
+            <p>Learn how to build your startup from scratch.</p>
+        </div>
+
+        <div class="card">
+            <h3>Business Case Competition</h3>
+            <p>Compete and showcase your problem-solving skills.</p>
+        </div>
+
+        <div class="card">
+            <h3>Networking Night</h3>
+            <p>Connect with industry leaders and alumni.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SPONSORS -->
+<section class="sponsors">
+    <h2>Our Sponsors</h2>
+
+    <div class="sponsor-logos">
+        <div>Logo</div>
+        <div>Logo</div>
+        <div>Logo</div>
+        <div>Logo</div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-left">
+            <img src="logo.jpg" alt="Logo">
+            <h3>KUET Business & Entrepreneurship Club</h3>
+            <p>The Premier Business And Entrepreneurship Club of KUET.</p>
+
+            <div class="footer-contact">
+                <p>📍 SWC-302, Students Welfare Center, KUET</p>
+                <p>📞 +880 1822 076 101</p>
+                <p>✉ kbec.kuet@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="footer-right">
+            <h4>Follow Us</h4>
+
+            <div class="footer-social">
+                <div>F</div>
+                <div>in</div>
+                <div>IG</div>
+            </div>
+
+            <h4 class="dev-title">Developed By</h4>
+            <p class="dev">AlgoOasis (IT Partner)</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 KBEC Official. All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+(() => {
+    const button = document.getElementById('profileMenuButton');
+    const menu = document.getElementById('profileMenu');
+    if (!button || !menu) return;
+
+    const setOpen = (open) => {
+        menu.hidden = !open;
+        button.setAttribute('aria-expanded', String(open));
+    };
+
+    button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setOpen(menu.hidden);
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!menu.hidden && !menu.contains(e.target) && e.target !== button) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setOpen(false);
+    });
+
+    // Optional: placeholder behavior (no new pages/files)
+    menu.addEventListener('click', (e) => {
+        const item = e.target.closest('.profile-menu-item');
+        if (!item) return;
+        setOpen(false);
+    });
+})();
+</script>
+
+</body>
+</html>
