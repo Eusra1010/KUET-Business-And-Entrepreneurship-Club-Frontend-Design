@@ -14,6 +14,27 @@ TEDxKUET - independently organized by KBEC under the global TEDx banner, launche
         location: "KUET Auditorium, Khulna",
         registerLink: "https://example.com/register-tedx",
         facebookLink: "https://www.facebook.com/events/2439190826531758"
+    },
+    nexusSeason2: {
+        title: "KBEC NEXUS SEASON 2",
+        image: "KBEC nexus_2.jpg",
+        desc: `
+KBEC_NEXUS Season 2, hosted by KUET Business and Entrepreneurship Club (KBEC), is a National Business Case Competition designed to tackle real world business challenges and craft innovative and actionable solutions. After setting a nationwide benchmark in its first season in 2024, the competition returns with greater ambition, a larger stage and even sharper competitive edge. This season aims to elevate the previous legacy, combining competitive rigor, industry exposure and nationwide visibility in one unforgettable journey.
+
+WHY PARTICIPATE?
+✓ Solve real world business challenges designed to test creativity, analytical depth and strategy.
+
+✓ Gain exposure to industry leaders and recruiters from Bangladesh's top corporate sectors.
+
+✓ Expand your network through workshops, keynotes and peer collaboration.
+
+✓ Showcase strategic thinking in front of top corporate professionals.
+
+✓ Compete for a prize pool of BDT 2,00,000, recognition and national prestige.
+        `,
+        location: "KUET, Khulna",
+        registerLink: "#",
+        facebookLink: "https://www.facebook.com/events/2269980206835320/?__cft__[0]=AZZF9F_SztLnasduO8ZnFCD94xCotvZIp_7RMasNY24IrJ3Oa-EekrvjrQqIf7tyxWLsbo2rEw8HmahwSLlGLl8v-R4yjVsCwQ67vkSAyySoJVDzGbc5RpFQj1zjgHagd3ggUVIBGjrGLsjM2encQP4Ivi_MtllgZlFJxRlD-4EfDqoBojonLpG3NLA6LOTtcnvYmFYpSHRrnQnqgC7CijH5XLuSFLAItC_VHOy8zWaawA&__tn__=-UK-y-R"
     }
 };
 

@@ -13,6 +13,14 @@
     text-align:center;
 }
 
+.events-page-header{
+    display:flex;
+    justify-content:flex-start;
+    max-width:1200px;
+    margin:0 auto 24px;
+    padding:0 20px;
+}
+
 .events-grid{
     display:flex;
     gap:30px;
@@ -52,6 +60,10 @@
 <body>
 
 <section class="events-page">
+    <div class="events-page-header">
+        <a href="kbec.html" class="back-home-btn">← Back</a>
+    </div>
+
     <h1>Our Events</h1>
 
     <div class="events-grid">
@@ -60,6 +72,12 @@
         <a href="event-details.html?event=tedx" class="event-item">
             <img src="tedx.jpg" alt="TEDx KUET">
             <h3>TEDxKUET</h3>
+        </a>
+
+        <!-- KBEC NEXUS Season 2 Event -->
+        <a href="event-details.html?event=nexusSeason2" class="event-item">
+            <img src="KBEC nexus_2.jpg" alt="KBEC NEXUS Season 2">
+            <h3>KBEC NEXUS SEASON 2</h3>
         </a>
 
     </div>
