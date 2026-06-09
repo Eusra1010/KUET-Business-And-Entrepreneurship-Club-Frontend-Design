@@ -41,7 +41,7 @@
             </div>
 
             <h1 class="auth-title">Welcome Back</h1>
-            <p class="auth-subtitle">Log in to your KBEC account</p>
+          <p class="auth-subtitle">Login or sign up to register for KBEC events</p>
 
             <% if (!string.IsNullOrEmpty(message)) { %>
                 <div class="<%= messageClass %>"><%= message %></div>

@@ -80,27 +80,30 @@
                     <asp:TextBox ID="txtName" runat="server" CssClass="form-input" placeholder="Enter your full name" />
                     <span id="nameError" class="field-error"></span>
                 </div>
+
                 <div class="form-group">
                     <label>Email Address</label>
                     <asp:TextBox ID="txtEmail" runat="server" CssClass="form-input" TextMode="Email" placeholder="Enter your email" />
                     <span id="emailError" class="field-error"></span>
                 </div>
+
                 <div class="form-group">
                     <label>New Password</label>
                     <div class="input-wrap">
-                        <asp:TextBox ID="txtPassword" runat="server" CssClass="form-input" TextMode="Password" placeholder="Create a strong password" />
-                        <button type="button" class="toggle-pw" onclick="togglePassword('<%=txtPassword.ClientID%>', this)">Show</button>
+                        <input type="password" id="pwField" name="pwField" class="form-input" placeholder="Create a strong password" autocomplete="new-password" />
+                        <button type="button" class="toggle-pw" onclick="togglePw('pwField', this)">Show</button>
                     </div>
                     <div class="strength-bar-wrap">
                         <div class="strength-bar" id="strengthBar"></div>
                     </div>
                     <span id="strengthMsg" class="strength-msg"></span>
                 </div>
+
                 <div class="form-group">
                     <label>Confirm Password</label>
                     <div class="input-wrap">
-                        <asp:TextBox ID="txtConfirm" runat="server" CssClass="form-input" TextMode="Password" placeholder="Re-enter your password" />
-                        <button type="button" class="toggle-pw" onclick="togglePassword('<%=txtConfirm.ClientID%>', this)">Show</button>
+                        <input type="password" id="confirmField" name="confirmField" class="form-input" placeholder="Re-enter your password" autocomplete="new-password" />
+                        <button type="button" class="toggle-pw" onclick="togglePw('confirmField', this)">Show</button>
                     </div>
                     <div class="strength-bar-wrap">
                         <div class="strength-bar" id="strengthBarConfirm"></div>
@@ -108,103 +111,155 @@
                     <span id="matchMsg" class="strength-msg"></span>
                 </div>
 
+                <!-- Hidden fields to pass password to server -->
+                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" Style="display:none;" />
+                <asp:TextBox ID="txtConfirm" runat="server" TextMode="Password" Style="display:none;" />
+
                 <asp:Button ID="btnSignup" runat="server" Text="Create Account"
                     CssClass="auth-btn" OnClick="btnSignup_Click"
-                    OnClientClick="return validateForm()" />
+                    OnClientClick="return copyAndValidate()" />
 
                 <p class="auth-switch">Already have an account? <a href="login.aspx">Log in</a></p>
             </div>
         </div>
     </div>
     </form>
-    <script>
-        var pwId = '<%=txtPassword.ClientID%>';
-        var confirmId = '<%=txtConfirm.ClientID%>';
 
-        document.getElementById(pwId).addEventListener('input', function () {
-            checkStrength(this.value, 'strengthBar', 'strengthMsg');
+    <script>
+        // Password strength checker
+        document.getElementById('pwField').addEventListener('input', function () {
+            checkStrength(this.value);
         });
-        document.getElementById(confirmId).addEventListener('input', function () {
+
+        document.getElementById('confirmField').addEventListener('input', function () {
             checkConfirm(this.value);
         });
 
-        function checkStrength(password, barId, msgId) {
-            var bar = document.getElementById(barId);
-            var msg = document.getElementById(msgId);
+        function checkStrength(password) {
+            var bar = document.getElementById('strengthBar');
+            var msg = document.getElementById('strengthMsg');
             var score = 0;
             var suggestions = [];
+
             if (password.length >= 8) score++; else suggestions.push('8+ characters');
-            if (/[A-Z]/.test(password)) score++; else suggestions.push('uppercase letter');
+            if (/[A-Z]/.test(password)) score++; else suggestions.push('an uppercase letter');
             if (/[0-9]/.test(password)) score++; else suggestions.push('a number');
-            if (/[^A-Za-z0-9]/.test(password)) score++; else suggestions.push('a symbol (@,#,!)');
+            if (/[^A-Za-z0-9]/.test(password)) score++; else suggestions.push('a symbol like @, #, !');
+
             bar.className = 'strength-bar';
-            if (password.length === 0) { bar.style.width = '0%'; msg.textContent = ''; return; }
+
+            if (password.length === 0) {
+                bar.style.width = '0%';
+                msg.textContent = '';
+                msg.className = 'strength-msg';
+                return;
+            }
+
             if (score <= 1) {
-                bar.style.width = '25%'; bar.classList.add('weak');
-                msg.textContent = '✗ Weak — Add: ' + suggestions.join(', ');
+                bar.style.width = '25%';
+                bar.classList.add('weak');
+                msg.textContent = 'Weak — Add: ' + suggestions.join(', ');
                 msg.className = 'strength-msg weak';
             } else if (score === 2) {
-                bar.style.width = '50%'; bar.classList.add('fair');
-                msg.textContent = '~ Fair — Add: ' + suggestions.join(', ');
+                bar.style.width = '50%';
+                bar.classList.add('fair');
+                msg.textContent = 'Fair — Add: ' + suggestions.join(', ');
                 msg.className = 'strength-msg fair';
             } else if (score === 3) {
-                bar.style.width = '75%'; bar.classList.add('good');
-                msg.textContent = '✓ Good — Add: ' + suggestions.join(', ');
+                bar.style.width = '75%';
+                bar.classList.add('good');
+                msg.textContent = 'Good — Add: ' + suggestions.join(', ');
                 msg.className = 'strength-msg good';
             } else {
-                bar.style.width = '100%'; bar.classList.add('strong');
-                msg.textContent = '✓ Strong password!';
+                bar.style.width = '100%';
+                bar.classList.add('strong');
+                msg.textContent = 'Strong password!';
                 msg.className = 'strength-msg strong';
             }
         }
 
         function checkConfirm(value) {
-            var pw = document.getElementById(pwId).value;
+            var pw = document.getElementById('pwField').value;
             var bar = document.getElementById('strengthBarConfirm');
             var msg = document.getElementById('matchMsg');
-            if (value.length === 0) { bar.style.width = '0%'; bar.className = 'strength-bar'; msg.textContent = ''; return; }
+
+            if (value.length === 0) {
+                bar.style.width = '0%';
+                bar.className = 'strength-bar';
+                msg.textContent = '';
+                return;
+            }
+
             if (pw !== value) {
-                bar.style.width = '50%'; bar.className = 'strength-bar weak';
-                msg.textContent = '✗ Passwords do not match';
+                bar.style.width = '50%';
+                bar.className = 'strength-bar weak';
+                msg.textContent = 'Passwords do not match';
                 msg.className = 'strength-msg weak';
             } else {
-                bar.style.width = '100%'; bar.className = 'strength-bar strong';
-                msg.textContent = '✓ Passwords match';
+                bar.style.width = '100%';
+                bar.className = 'strength-bar strong';
+                msg.textContent = 'Passwords match';
                 msg.className = 'strength-msg strong';
             }
         }
 
-        function togglePassword(fieldId, btn) {
+        function togglePw(fieldId, btn) {
             var field = document.getElementById(fieldId);
-            if (field.type === 'password') { field.type = 'text'; btn.textContent = 'Hide'; }
-            else { field.type = 'password'; btn.textContent = 'Show'; }
+            if (field.type === 'password') {
+                field.type = 'text';
+                btn.textContent = 'Hide';
+            } else {
+                field.type = 'password';
+                btn.textContent = 'Show';
+            }
         }
 
-        function validateForm() {
+        function copyAndValidate() {
             var name = document.getElementById('<%=txtName.ClientID%>').value.trim();
             var email = document.getElementById('<%=txtEmail.ClientID%>').value.trim();
-            var pw = document.getElementById(pwId).value;
-            var confirm = document.getElementById(confirmId).value;
-            if (!name) { document.getElementById('nameError').textContent = 'Name is required.'; return false; }
-            else { document.getElementById('nameError').textContent = ''; }
+            var pw = document.getElementById('pwField').value;
+            var confirm = document.getElementById('confirmField').value;
+
+            // Validate name
+            if (!name) {
+                document.getElementById('nameError').textContent = 'Name is required.';
+                return false;
+            } else {
+                document.getElementById('nameError').textContent = '';
+            }
+
+            // Validate email
             if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                document.getElementById('emailError').textContent = 'Enter a valid email.'; return false;
-            } else { document.getElementById('emailError').textContent = ''; }
+                document.getElementById('emailError').textContent = 'Enter a valid email.';
+                return false;
+            } else {
+                document.getElementById('emailError').textContent = '';
+            }
+
+            // Validate password strength
             var score = 0;
             if (pw.length >= 8) score++;
             if (/[A-Z]/.test(pw)) score++;
             if (/[0-9]/.test(pw)) score++;
             if (/[^A-Za-z0-9]/.test(pw)) score++;
+
             if (score < 3) {
-                document.getElementById('strengthMsg').textContent = '✗ Password not strong enough!';
+                document.getElementById('strengthMsg').textContent = 'Password is not strong enough!';
                 document.getElementById('strengthMsg').className = 'strength-msg weak';
                 return false;
             }
+
+            // Validate match
             if (pw !== confirm) {
-                document.getElementById('matchMsg').textContent = '✗ Passwords do not match';
+                document.getElementById('matchMsg').textContent = 'Passwords do not match';
                 document.getElementById('matchMsg').className = 'strength-msg weak';
                 return false;
             }
+
+            // Copy values to hidden ASP.NET fields for server processing
+            document.getElementById('<%=txtPassword.ClientID%>').value = pw;
+            document.getElementById('<%=txtConfirm.ClientID%>').value = confirm;
+
             return true;
         }
     </script>
